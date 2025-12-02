@@ -44,7 +44,7 @@ jobs:
         echo "Taille: $(du -h app/build/outputs/apk/debug/app-debug.apk | cut -f1)"
     
     - name: 📤 Upload APK as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: smartagenda-notif-debug
         path: app/build/outputs/apk/debug/app-debug.apk
