@@ -5,7 +5,7 @@ package com.smartagenda.notif
  */
 object ApiConfig {
     // URL par défaut - À modifier selon votre serveur
-    const val DEFAULT_SERVER_URL = "http://192.168.1.2:8086"
+    const val DEFAULT_SERVER_URL = "http://192.168.1.100:8086"
     
     // Endpoints
     const val ENDPOINT_NOTIFICATIONS_PENDING = "/api/notifications/pending"

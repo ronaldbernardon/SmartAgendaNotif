@@ -1,4 +1,3 @@
-#
 # 📱 SmartAgenda Notif - Application Android
 
 Application Android pour recevoir les notifications de SmartAgenda via votre réseau VPN interne.
