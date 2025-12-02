@@ -1,0 +1,59 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # Permet de déclencher manuellement
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v3
+    
+    - name: ☕ Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    
+    - name: 🔧 Grant execute permission for gradlew
+      run: chmod +x gradlew
+    
+    - name: 📦 Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    
+    - name: 🔨 Build Debug APK
+      run: ./gradlew assembleDebug --stacktrace
+    
+    - name: 📊 APK Info
+      run: |
+        echo "APK généré avec succès !"
+        ls -lh app/build/outputs/apk/debug/app-debug.apk
+        echo "Taille: $(du -h app/build/outputs/apk/debug/app-debug.apk | cut -f1)"
+    
+    - name: 📤 Upload APK as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: smartagenda-notif-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 30
+    
+    - name: 📋 Create Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: app/build/outputs/apk/debug/app-debug.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartAgenda Notif</string>
+    <string name="service_notification_title">SmartAgenda actif</string>
+    <string name="service_notification_text">En attente de notifications</string>
+</resources>
